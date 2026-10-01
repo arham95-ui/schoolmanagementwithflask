@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}📊 Dashboard{% endblock %}
+{% block page_subtitle %}Overview of your school management system{% endblock %}
+
+{% block content %}
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="number">{{ stats.students }}</div>
+            <div class="label">👨‍🎓 Students</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="border-top-color: #45b7d1;">
+            <div class="number">{{ stats.teachers }}</div>
+            <div class="label">👨‍🏫 Teachers</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="border-top-color: #96ceb4;">
+            <div class="number">{{ stats.classes }}</div>
+            <div class="label">📚 Classes</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card" style="border-top-color: #dda0dd;">
+            <div class="number">{{ stats.subjects }}</div>
+            <div class="label">📖 Subjects</div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="card">
+    <h5 class="card-title">📋 Recent Activity</h5>
+    <hr>
+    <div class="text-muted">
+        <p><i class="bi bi-check-circle text-success"></i> System started successfully</p>
+        <p><i class="bi bi-people text-info"></i> Total Students: {{ stats.students }}</p>
+        <p><i class="bi bi-person-badge text-info"></i> Total Teachers: {{ stats.teachers }}</p>
+        <p><i class="bi bi-book text-info"></i> Total Classes: {{ stats.classes }}</p>
+        <p><i class="bi bi-journal text-info"></i> Total Subjects: {{ stats.subjects }}</p>
+        <p><i class="bi bi-calendar text-muted"></i> Today's Date: {{ now.strftime('%Y-%m-%d') }}</p>
+        <p><i class="bi bi-clock text-muted"></i> Time: {{ now.strftime('%H:%M:%S') }}</p>
+    </div>
+</div>
+
+<!-- Recent Students -->
+<div class="card mt-4">
+    <h5 class="card-title">👨‍🎓 Recent Students</h5>
+    <hr>
+    {% if stats.recent_students %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Parent</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in stats.recent_students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td><span class="badge bg-info">{{ student.class_name }}</span></td>
+                        <td>{{ student.parent_name }}</td>
+                        <td>
+                            <a href="{{ url_for('view_student', id=student.id) }}" 
+                               class="btn btn-sm btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">No students added yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

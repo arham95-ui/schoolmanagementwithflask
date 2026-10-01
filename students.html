@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Students{% endblock %}
+{% block page_title %}👨‍🎓 Student Management{% endblock %}
+{% block page_subtitle %}Manage all students in the system{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="d-flex justify-content-between align-items-center">
+        <span class="text-muted">Total: {{ students|length }}</span>
+        <a href="{{ url_for('add_student') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add Student
+        </a>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Parent</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if students %}
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td><strong>{{ student.name }}</strong></td>
+                        <td><span class="badge bg-info">{{ student.class_name }}</span></td>
+                        <td>{{ student.parent_name }}</td>
+                        <td>{{ student.phone }}</td>
+                        <td>
+                            <a href="{{ url_for('view_student', id=student.id) }}" 
+                               class="btn btn-sm btn-primary">View</a>
+                            <a href="{{ url_for('edit_student', id=student.id) }}" 
+                               class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{{ url_for('delete_student', id=student.id) }}" 
+                               class="btn btn-sm btn-danger" 
+                               onclick="return confirm('Delete this student?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            No students found. <a href="{{ url_for('add_student') }}">Add your first student!</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

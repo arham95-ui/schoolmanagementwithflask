@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Student Details{% endblock %}
+{% block page_title %}👤 Student Details{% endblock %}
+{% block page_subtitle %}Complete information about {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="text-muted">Personal Information</h5>
+            <hr>
+            <p><strong>ID:</strong> {{ student.id }}</p>
+            <p><strong>Name:</strong> {{ student.name }}</p>
+            <p><strong>Email:</strong> {{ student.email or 'N/A' }}</p>
+            <p><strong>Phone:</strong> {{ student.phone }}</p>
+            <p><strong>Address:</strong> {{ student.address or 'N/A' }}</p>
+        </div>
+        <div class="col-md-6">
+            <h5 class="text-muted">Academic Information</h5>
+            <hr>
+            <p><strong>Class:</strong> {{ student.class_name }}</p>
+            <p><strong>Parent Name:</strong> {{ student.parent_name }}</p>
+            <p><strong>Parent Phone:</strong> {{ student.parent_phone }}</p>
+            <p><strong>Enrollment Date:</strong> {{ student.enrollment_date.strftime('%Y-%m-%d') }}</p>
+        </div>
+    </div>
+    
+    <div class="d-flex gap-2 mt-3">
+        <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        <a href="{{ url_for('students') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
+</div>
+{% endblock %}

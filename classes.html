@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Classes{% endblock %}
+{% block page_title %}📚 Class Management{% endblock %}
+{% block page_subtitle %}Manage all classes in the system{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="d-flex justify-content-between align-items-center">
+        <span class="text-muted">Total: {{ classes|length }}</span>
+        <a href="{{ url_for('add_class') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add Class
+        </a>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Class Name</th>
+                    <th>Section</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if classes %}
+                    {% for class_obj in classes %}
+                    <tr>
+                        <td>{{ class_obj.id }}</td>
+                        <td><strong>{{ class_obj.name }}</strong></td>
+                        <td>{{ class_obj.section or 'N/A' }}</td>
+                        <td>
+                            <a href="{{ url_for('view_class', id=class_obj.id) }}" 
+                               class="btn btn-sm btn-primary">View</a>
+                            <a href="{{ url_for('edit_class', id=class_obj.id) }}" 
+                               class="btn btn-sm btn-warning">Edit</a>
+                            <a href="{{ url_for('delete_class', id=class_obj.id) }}" 
+                               class="btn btn-sm btn-danger" 
+                               onclick="return confirm('Delete this class?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            No classes found. <a href="{{ url_for('add_class') }}">Add your first class!</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

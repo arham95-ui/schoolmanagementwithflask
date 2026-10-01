@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Class Details{% endblock %}
+{% block page_title %}📚 Class Details{% endblock %}
+{% block page_subtitle %}{{ class_obj.name }} - Section {{ class_obj.section or 'N/A' }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h5 class="card-title">Students in this class</h5>
+    <hr>
+    {% if students %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Parent</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.parent_name }}</td>
+                        <td>{{ student.phone }}</td>
+                        <td>
+                            <a href="{{ url_for('view_student', id=student.id) }}" 
+                               class="btn btn-sm btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">No students enrolled in this class.</p>
+    {% endif %}
+    
+    <div class="d-flex gap-2 mt-3">
+        <a href="{{ url_for('classes') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Classes
+        </a>
+    </div>
+</div>
+{% endblock %}
